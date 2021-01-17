@@ -42,26 +42,6 @@ def verify_list(proxy_list, thread_number):
     print('[Thread:', thread_number, '] Working Proxies:', working_list)
     good_list += working_list
 
-def init_new_proxy_list(file_name):
-    if os.path.exists(file_name):
-        os.remove(file_name)
-    f = open(file_name, 'w+')
-    to_write = ''
-    proxylist = tableDataText(gdp_table)
-    for proxyinfo in proxylist:
-       for i in range(len(proxyinfo)):
-           to_write += (proxyinfo[0] + ":" + proxyinfo[1]) + "\n"
-    f.write(to_write)
-    f.close()
-
-def writefile(file_name):
-    f = open(file_name, 'w+')
-    to_write = ''
-    for i in good_list:
-        to_write += 'HTTPS 	' + i + '\n'
-    f.write(to_write)
-    f.close()
-
 def tableDataText(table):    
     def rowgetDataText(tr, coltag='td'): # td (data) or th (header)       
         return [td.get_text(strip=True) for td in tr.find_all(coltag)]  
@@ -73,10 +53,29 @@ def tableDataText(table):
         rows.append(rowgetDataText(tr, 'td') )      
     return rows
 
+def init_new_proxy_list(file_name):
+    if os.path.exists(file_name):
+        os.remove(file_name)
+    f = open(file_name, 'w+')
+    to_write = ''
+    proxylist = tableDataText(gdp_table)
+    for i in range(1, len(proxylist)-1):
+        to_write += (proxylist[i][0] + ":" + proxylist[i][1]) + "\n"
+    f.write(to_write)
+    f.close()
+
+def writefile(file_name):
+    f = open(file_name, 'w+')
+    to_write = ''
+    for i in good_list:
+        to_write += 'HTTPS 	' + i + '\n'
+    f.write(to_write)
+    f.close()
+
 def get_proxy_list():
-    init_new_proxy_list('new_proxy_list.txt')
-    cmd = 'uniq new_proxy_list.txt  > proxies_new_proxy_list.txt | rm -rf new_proxy_list.txt'
-    os.system(cmd)
+    init_new_proxy_list('proxies_new_proxy_list.txt')
+    #cmd = 'uniq new_proxy_list.txt  > proxies_new_proxy_list.txt | rm -rf new_proxy_list.txt'
+    #os.system(cmd)
     directory = './'
     file = os.path.abspath(__file__)
     for i in sorted(range(len(file)), reverse=True):
