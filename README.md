@@ -9,11 +9,9 @@ Realtime update proxylist
 
 ### Usage
 ```sh
-sudo ./proxychains.sh <Command>
+./proxychains.sh <Command>
 ```
 
-### Config proxy list
+### Config
 * Your list name must start with **'proxies_'** prefix.
 
-### Legal Disclaimer
-Usage of "Hades proxychains" for attacking targets without prior mutual consent is illegal. "Hades proxychains" is for security testing purposes only

@@ -74,15 +74,15 @@ def AppendRandomLine(infile, outfile):
 
 #check backup file
 if os.path.isfile(backupfile):
-   print ("File exist")
+    shutil.copy(samplefile, configfile)
+    if CountLine(infile) < 6:
+        AppendFile(infile, configfile)
+    else:
+        AppendRandomLine(infile, configfile)
 else:
    shutil.copy(configfile, backupfile)
 
-shutil.copy(samplefile, configfile)
-if CountLine(infile) < 6:
-    AppendFile(infile, configfile)
-else:
-    AppendRandomLine(infile, configfile)
+
 
 
 
