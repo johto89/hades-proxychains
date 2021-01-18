@@ -9,7 +9,7 @@ Realtime update proxylist
 
 ### Usage
 ```sh
-./proxychains.sh <Command>
+sudo ./proxychains.sh <Command>
 ```
 
 ### Config
