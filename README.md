@@ -1,15 +1,17 @@
-# Hades proxy chain
+# Hades proxy chains
 Realtime update proxylist
+
+### Requirements
+* Python 3.x
+* Proxychains installed (https://github.com/haad/proxychains)
+* Works on Linux
+
 
 ### Usage
 ```sh
-proxy_check.py [Thread Count]
+./proxychains.sh <Command>
 ```
 
 ### Config
 * Your list name must start with **'proxies_'** prefix.
 
-### Reference
-[1]: https://documentation.mailgun.com/api-email-validation.html#example
-[2]: https://mailgun.com/signup
-[3]: https://mailgun.com/app/dashboard
