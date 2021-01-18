@@ -7,7 +7,16 @@ if [ -f "$file" ] ; then
 fi
 
 cp sampleproxychains.conf $file
-python3 get_proxy.py 10
+
+
+read -p "You want to update proxy list(y/N): " ans
+
+if [ "$ans" = "Y" ] || [ "$ans" = "y" ]; then
+    python3 get_proxy.py 10
+else
+    echo "Proxy list is not update"
+fi
+
 cat good_proxies_list.txt >> $file
 
 if [ ! -f "/etc/bakproxychains.conf" ] ; then
@@ -18,3 +27,9 @@ else
 fi
 
 
+#Append argument to proxychains
+for i in $*;
+do
+    params=" $params $d $i"
+done
+proxychains $params
