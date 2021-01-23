@@ -22,27 +22,44 @@ cat << "EOF"
 -------------------------------------------------------------
 EOF
 
-read -p "You want to update proxy list(y/N): " ans
-
-if [ "$ans" = "Y" ] || [ "$ans" = "y" ]; then
-    python3 get_proxy.py 10
-    #Clearn tmp file
-    rm -rf proxies_new_proxy_list.txt
-else
-    echo "Proxy list is not update"
+if (( $EUID != 0 )); then
+    echo "Please run as root"
+    exit
 fi
 
-#Proccess config file
-python3 file_utils.py
+program="proxychains"
+command -v "${program}"
 
-#Append argument to proxychains
-for i in $*;
-do
-    params=" $params $d $i"
-done
-proxychains $params
+if [[ "${?}" -ne 0 ]]; then
+    printf "${program} is not installed, exiting\\n"
+    exit 1
+else
+    read -p "You want to update proxy list(y/N): " ans
 
-#Restore config file
-mv /etc/bakproxychains.conf  /etc/proxychains.conf 
+    if [ "$ans" = "Y" ] || [ "$ans" = "y" ]; then
+        python3 get_proxy.py 10
+        #Clearn tmp file
+        rm -rf proxies_new_proxy_list.txt
+    else
+        echo "Proxy list is not update"
+    fi
+
+    #Proccess config file
+    python3 file_utils.py
+
+    #Append argument to proxychains
+    for i in $*;
+    do
+        params=" $params $d $i"
+    done
+    proxychains $params
+
+    #Restore config file
+    mv /etc/bakproxychains.conf  /etc/proxychains.conf 
+fi 
+
+
+
+
 
 
